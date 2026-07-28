@@ -34,6 +34,7 @@ public class CountriesRepository : GenericRepository<Country>, ICountriesReposit
         var country = await _context.Countries
              .Include(c => c.States!)
              .ThenInclude(s => s.Cities)
+             .AsSplitQuery()
              .FirstOrDefaultAsync(c => c.Id == id);
 
         if (country == null)

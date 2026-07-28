@@ -10,5 +10,24 @@
 
   <ItemGroup>
     <PackageReference Include="MudBlazor" Version="9.*" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Components\Pages\Cities\" />
+    <Folder Include="Components\Pages\States\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orders.Shared\Orders.Shared.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="wwwroot\images\question-png-32041.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
