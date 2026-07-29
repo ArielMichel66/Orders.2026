@@ -3,11 +3,11 @@ using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Components.Pages.Countries;
+namespace Orders.Frontend.Components.Pages.Categories;
 
-public partial class CountryEdit
+public partial class CategoryEdit
 {
-    private Country? country;
+    private Category? category;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = null!;
     [Inject] private IRepository Repository { get; set; } = null!;
@@ -18,13 +18,13 @@ public partial class CountryEdit
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await Repository.GetAsync<Country>($"api/countries/{Id}");
+        var responseHttp = await Repository.GetAsync<Category>($"api/categories/{Id}");
 
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                NavigationManager.NavigateTo("/countries", forceLoad: true);
+                NavigationManager.NavigateTo("categories");
             }
             else
             {
@@ -34,13 +34,13 @@ public partial class CountryEdit
         }
         else
         {
-            country = responseHttp.Response;
+            category = responseHttp.Response;
         }
     }
 
     private async Task EditAsync()
     {
-        var responseHttp = await Repository.PutAsync("api/countries", country);
+        var responseHttp = await Repository.PutAsync("api/categories", category);
 
         if (responseHttp.Error)
         {
