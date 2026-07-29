@@ -13,4 +13,6 @@ public interface ICountriesUnitOfWork
     ///paginado
     ///
     Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination);
+
+    Task<ActionResponse<int>> GetTotalRecordsAsync(PaginationDTO pagination);
 }
