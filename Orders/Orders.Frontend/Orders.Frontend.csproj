@@ -15,11 +15,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Components\Pages\Cities\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <ProjectReference Include="..\Orders.Shared\Orders.Shared.csproj" />
   </ItemGroup>
 
