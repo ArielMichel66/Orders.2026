@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Components\Pages\Cities\" />
-    <Folder Include="Components\Pages\States\" />
   </ItemGroup>
 
 

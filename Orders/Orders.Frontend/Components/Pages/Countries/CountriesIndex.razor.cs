@@ -80,6 +80,11 @@ public partial class CountriesIndex
         };
     }
 
+    private void StatesAction(Country country)
+    {
+        NavigationManager.NavigateTo($"/countries/details/{country.Id}");
+    }
+
     private async Task SetFilterValue(string value)
     {
         Filter = value;
