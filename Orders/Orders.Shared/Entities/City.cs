@@ -18,5 +18,7 @@ public class City : IEntityWithName
 
     [JsonIgnore]
     [ValidateNever]
-    public State State { get; set; } = null!;
+    public State? State { get; set; } = null!;
+
+    public ICollection<User>? Users { get; set; }
 }
