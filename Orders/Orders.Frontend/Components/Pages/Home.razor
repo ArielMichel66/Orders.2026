@@ -1,6 +1,14 @@
 ﻿@page "/"
 
-<PageTitle>Compras</PageTitle>
+<PageTitle>Inicio</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Bienvenido a Compras 2026!</MudText>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">Hola @context.User.Identity?.Name!</MudText>
+    </Authorized>
+    <NotAuthorized>
+        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">No estas autenticado</MudText>
+    </NotAuthorized>
+</AuthorizeView>
 
+<MudText Class="m-2">Bienvenido a Compras 2026!</MudText>
