@@ -40,4 +40,11 @@ public class CategoriesController : GenericController<Category>
         }
         return BadRequest();
     }
+
+    [AllowAnonymous]
+    [HttpGet("comboCategories")]
+    public async Task<IActionResult> GetComboAsync()
+    {
+        return Ok(await _categoriesUnitOfWork.GetComboAsync());
+    }
 }
