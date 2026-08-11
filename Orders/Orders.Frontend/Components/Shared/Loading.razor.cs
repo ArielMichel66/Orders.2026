@@ -9,7 +9,7 @@ namespace Orders.Frontend.Components.Shared
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
-            if (string.IsNullOrEmpty(Label))
+            if (string.IsNullOrWhiteSpace(Label))
             {
                 Label = "Por favor espere...";
             }

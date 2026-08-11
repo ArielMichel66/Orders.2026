@@ -61,7 +61,7 @@ public class UsersRepository : IUsersRepository
 
     public async Task<SignInResult> LoginAsync(LoginDTO model)
     {
-        return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+        return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
     }
 
     public async Task LogoutAsync()
@@ -87,5 +87,15 @@ public class UsersRepository : IUsersRepository
     public async Task<IdentityResult> UpdateUserAsync(User user)
     {
         return await _userManager.UpdateAsync(user);
+    }
+
+    public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+    {
+        return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+    }
+
+    public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+    {
+        return await _userManager.ConfirmEmailAsync(user, token);
     }
 }

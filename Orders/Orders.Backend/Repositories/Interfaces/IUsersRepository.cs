@@ -28,4 +28,10 @@ public interface IUsersRepository
     Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);
 
     Task<IdentityResult> UpdateUserAsync(User user);
+
+    ///Confirmacion de Email
+
+    Task<string> GenerateEmailConfirmationTokenAsync(User user);
+
+    Task<IdentityResult> ConfirmEmailAsync(User user, string token);
 }
