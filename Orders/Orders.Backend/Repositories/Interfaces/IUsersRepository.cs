@@ -34,4 +34,10 @@ public interface IUsersRepository
     Task<string> GenerateEmailConfirmationTokenAsync(User user);
 
     Task<IdentityResult> ConfirmEmailAsync(User user, string token);
+
+    ///Reset password
+    ///
+    Task<string> GeneratePasswordResetTokenAsync(User user);
+
+    Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
 }
