@@ -18,22 +18,34 @@ namespace Orders.Backend.Controllers;
 public class AccountsController : ControllerBase
 {
     private readonly IUsersUnitOfWork _usersUnitOfWork;
+    private readonly IFileStorage _fileStorage;
     private readonly IConfiguration _configuration;
     private readonly IMailHelper _mailHelper;
+    private readonly string _container;
 
     public AccountsController(IConfiguration configuration,
                               IMailHelper mailHelper,
-                              IUsersUnitOfWork usersUnitOfWork)
+                              IUsersUnitOfWork usersUnitOfWork,
+                              IFileStorage fileStorage)
     {
         _usersUnitOfWork = usersUnitOfWork;
+        _fileStorage = fileStorage;
         _configuration = configuration;
         _mailHelper = mailHelper;
+        _container = "users";
     }
 
     [HttpPost("CreateUser")]
     public async Task<IActionResult> CreateUser([FromBody] UserDTO model)
     {
         User user = model;
+
+        if (!string.IsNullOrEmpty(model.Photo))
+        {
+            var photoUser = Convert.FromBase64String(model.Photo);
+            model.Photo = await _fileStorage.SaveFileAsync(photoUser, ".jpg", _container);
+        }
+
         var result = await _usersUnitOfWork.AddUserAsync(user, model.Password);
         if (result.Succeeded)
         {
@@ -136,11 +148,11 @@ public class AccountsController : ControllerBase
                 return NotFound();
             }
 
-            //if (!string.IsNullOrEmpty(user.Photo))
-            //{
-            //    var photoUser = Convert.FromBase64String(user.Photo);
-            //    user.Photo = await _fileStorage.SaveFileAsync(photoUser, ".jpg", _container);
-            //}
+            if (!string.IsNullOrEmpty(user.Photo))
+            {
+                var photoUser = Convert.FromBase64String(user.Photo);
+                user.Photo = await _fileStorage.SaveFileAsync(photoUser, ".jpg", _container);
+            }
 
             currentUser.Document = user.Document;
             currentUser.FirstName = user.FirstName;
