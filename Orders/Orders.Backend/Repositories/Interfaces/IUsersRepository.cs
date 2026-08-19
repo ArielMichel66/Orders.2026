@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
+using Orders.Shared.Responses;
 
 namespace Orders.Backend.Repositories.Interfaces;
 
@@ -40,4 +41,10 @@ public interface IUsersRepository
     Task<string> GeneratePasswordResetTokenAsync(User user);
 
     Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+    ///administracion de usuarios
+
+    Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination);
+
+    Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 }
