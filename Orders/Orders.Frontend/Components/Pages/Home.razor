@@ -1,14 +1,68 @@
 ﻿@page "/"
 
-<PageTitle>Inicio</PageTitle>
+<PageTitle>Inicio - Portal de Gestión</PageTitle>
 
-<AuthorizeView Roles="Admin">
+<!-- Banner/Header principal -->
+<MudPaper Elevation="0" Class="pa-6 mb-6 rounded-lg" Style="background-color: var(--mud-palette-background-grey);">
+    <MudText Typo="Typo.h4" Color="Color.Primary" Class="fw-bold mb-1">
+        Portal Principal
+    </MudText>
+    <MudText Typo="Typo.body2" Color="Color.Secondary">
+        Orders | Sistema de Ventas
+    </MudText>
+</MudPaper>
+
+<!-- Control de Autenticación Global -->
+<AuthorizeView>
     <Authorized>
-        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">Hola @context.User.Identity?.Name!</MudText>
+        <!-- CASO 1: USUARIO AUTENTICADO -->
+        <AuthorizeView Roles="Admin" Context="adminContext">
+            <Authorized>
+                <!-- Mensaje exclusivo para Administradores -->
+                <MudPaper Elevation="1" Class="pa-4 my-4 border-left-4 border-solid border-primary">
+                    <div class="d-flex align-center">
+                        <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary" Size="Size.Large" Class="me-3" />
+                        <div>
+                            <MudText Typo="Typo.h5" Class="fw-bold">
+                                Panel de Control — Administrador
+                            </MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                Bienvenido, @context.User.Identity?.Name. Tienes acceso completo a la gestión del sistema.
+                            </MudText>
+                        </div>
+                    </div>
+                </MudPaper>
+            </Authorized>
+            <NotAuthorized>
+                <!-- Mensaje para Usuarios autenticados (Rol User u otros) -->
+                <MudPaper Elevation="1" Class="pa-4 my-4 border-left-4 border-solid border-info">
+                    <div class="d-flex align-center">
+                        <MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Info" Size="Size.Large" Class="me-3" />
+                        <div>
+                            <MudText Typo="Typo.h5" Class="fw-bold">
+                                Bienvenido, @context.User.Identity?.Name
+                            </MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                Has iniciado sesión correctamente. Explora las opciones disponibles en el menú lateral.
+                            </MudText>
+                        </div>
+                    </div>
+                </MudPaper>
+            </NotAuthorized>
+        </AuthorizeView>
     </Authorized>
+
     <NotAuthorized>
-        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">No estas autenticado</MudText>
+        <!-- CASO 2: USUARIO NO AUTENTICADO (ANÓNIMO) -->
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mt-6 mb-4 pa-4" ContentClass="d-flex align-center">
+            <div>
+                <MudText Typo="Typo.subtitle1" Class="fw-bold mb-1">
+                    Sesión no iniciada
+                </MudText>
+                <MudText Typo="Typo.body2">
+                    Inicia sesión para acceder a las herramientas y módulos de la plataforma.
+                </MudText>
+            </div>
+        </MudAlert>
     </NotAuthorized>
 </AuthorizeView>
-
-<MudText Class="m-2">Bienvenido a Compras 2026!</MudText>

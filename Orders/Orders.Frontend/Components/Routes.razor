@@ -1,21 +1,64 @@
-﻿<Router AppAssembly="typeof(Program).Assembly"> @* NotFoundPage="typeof(Pages.NotFound)" *@
+﻿<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
             <Authorizing>
-                <p>Autorizando...</p>
+                <MudContainer MaxWidth="MaxWidth.Small" Class="d-flex flex-column align-center justify-center my-8">
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" Class="mb-4" />
+                    <MudText Typo="Typo.body1" Color="Color.Secondary">Verificando autorizaciones...</MudText>
+                </MudContainer>
             </Authorizing>
             <NotAuthorized>
-                <p>No estas autorizado para ver este contenido...</p>
-            </NotAuthorized>
+                <MudContainer MaxWidth="MaxWidth.Small" Class="my-8">
+                    <MudPaper Elevation="2" Class="pa-8 d-flex flex-column align-center text-center rounded-lg border-left-8 border-solid border-error">
+                        <MudIcon Icon="@Icons.Material.Filled.Lock" Color="Color.Error" Style="font-size: 4rem;" Class="mb-4" />
 
+                        <MudText Typo="Typo.h5" Class="fw-bold mb-2">
+                            Acceso Restringido
+                        </MudText>
+
+                        <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-6">
+                            No tienes los permisos necesarios o el rol correspondiente para visualizar este contenido.
+                        </MudText>
+
+                        <div class="d-flex gap-4">
+                            <MudButton Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.Home"
+                                       Href="/">
+                                Volver al Inicio
+                            </MudButton>
+                        </div>
+                    </MudPaper>
+                </MudContainer>
+            </NotAuthorized>
         </AuthorizeRouteView>
+
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
     <NotFound>
         <CascadingAuthenticationState>
             <PageTitle>No encontrado</PageTitle>
             <LayoutView Layout="@typeof(Layout.MainLayout)">
-                <p role="alert">Lo sentimos no hay nada en esta ruta.</p>
+                <MudContainer MaxWidth="MaxWidth.Small" Class="my-8">
+                    <MudPaper Elevation="2" Class="pa-8 d-flex flex-column align-center text-center rounded-lg border-left-8 border-solid border-warning">
+                        <MudIcon Icon="@Icons.Material.Filled.FindInPage" Color="Color.Warning" Style="font-size: 4rem;" Class="mb-4" />
+
+                        <MudText Typo="Typo.h5" Class="fw-bold mb-2">
+                            Página no encontrada
+                        </MudText>
+
+                        <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-6">
+                            Lo sentimos, la ruta a la que intentas acceder no existe.
+                        </MudText>
+
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.Home"
+                                   Href="/">
+                            Volver al Inicio
+                        </MudButton>
+                    </MudPaper>
+                </MudContainer>
             </LayoutView>
         </CascadingAuthenticationState>
     </NotFound>

@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Text.Json;
 
 namespace Orders.Frontend.Repositories;
 
@@ -29,7 +31,8 @@ public class HttpResponseWrapper<T>
         }
         if (statusCode == HttpStatusCode.BadRequest)
         {
-            return await HttpResponseMessage.Content.ReadAsStringAsync();
+            var content = await HttpResponseMessage.Content.ReadAsStringAsync();
+            return ParseBadRequestContent(content);
         }
         if (statusCode == HttpStatusCode.Unauthorized)
         {
@@ -41,5 +44,40 @@ public class HttpResponseWrapper<T>
         }
 
         return "Ha ocurrido un error inesperado.";
+    }
+
+    private static string ParseBadRequestContent(string content)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return "Solicitud incorrecta.";
+        }
+
+        try
+        {
+            // Intentar deserializar como ValidationProblemDetails (errores de DataAnnotations / FluentValidation)
+            var problemDetails = JsonSerializer.Deserialize<ValidationProblemDetails>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (problemDetails?.Errors != null && problemDetails.Errors.Count > 0)
+            {
+                // Extrae el primer mensaje de error encontrado en la lista
+                return problemDetails.Errors.FirstOrDefault().Value?.FirstOrDefault() ?? "Error de validación.";
+            }
+
+            if (!string.IsNullOrEmpty(problemDetails?.Detail))
+            {
+                return problemDetails.Detail;
+            }
+        }
+        catch (JsonException)
+        {
+            // Si no es un JSON estructurado, devuelve el string directo
+            return content;
+        }
+
+        return content;
     }
 }

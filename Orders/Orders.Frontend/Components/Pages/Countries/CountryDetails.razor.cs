@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Components.Pages.States;
@@ -8,6 +9,7 @@ using System.Net;
 
 namespace Orders.Frontend.Components.Pages.Countries;
 
+[Authorize(Roles = "Admin")]
 public partial class CountryDetails
 {
     private Country? country;

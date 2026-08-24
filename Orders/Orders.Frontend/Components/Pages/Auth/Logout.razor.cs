@@ -13,7 +13,8 @@ public partial class Logout
     private async Task LogoutActionAsync()
     {
         await LoginService.LogoutAsync();
-        CancelAction();
+        MudDialog.Close(DialogResult.Ok(true));
+        NavigationManager.NavigateTo("/");
     }
 
     private void CancelAction()
